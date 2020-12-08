@@ -1,7 +1,7 @@
 //-----Projeto:32:00                                                                 ---------
 //-----Titulo:Paladario                                                              ---------
-//-----Autor:Dinossauro Bebado                                                       ---------
-//-----Objetivo :Ter controle de sensores, luzes e equipamentos do paladario          --------
+//-----Autor:@dinossauro.bebado/@DinossauroBbad1                                     ---------
+//-----Objetivo :Ter controle de sensores, luzes e equipamentos do paladario         ---------
 //-----atraves da internet                                                           ---------
 //--------------------------------------------------------------------------------------------
 //--------------------------------------------------------------------------------------------
@@ -33,8 +33,8 @@ const char *password = "3141592653589";
 const long utcOffsetInSeconds = -10800;
 char daysOfTheWeek[7][12] = {"Domingo", "Segunda", "Terça", "Quarta", "Quinta", "Sexta", "Sabado"};
 //-------------------Wi-fi Config--------------------------#
-int hora_ligar = 19; 
-int hora_desligar = 20;
+int hora_ligar = 10; 
+int hora_desligar = 22;
 //-------------------Definição de pinos--------------------#
 const int bomba = D8 ; 
 const int luz = D7 ; 
@@ -58,23 +58,26 @@ void setup(){
   timeClient.begin();
   pinMode(luz,OUTPUT);
   pinMode(bomba,OUTPUT);
+  digitalWrite(bomba,LOW);//matem a entrada da bomba de agua ligada o tempo tempo 
   
-}
+}j 
 
 void loop() {
   timeClient.update();
   minutos = timeClient.getMinutes();
   hora = timeClient.getHours();
   Serial.println(hora);
-  while(hora>=hora_ligar && hora<=hora_desligar)
+  Serial.println("Paladario desligado");
+  while(hora>=hora_ligar && hora<hora_desligar)
   {
   Serial.println("Paladario ligado");
-  Serial.println(hora);
-  digitalWrite(luz,HIGH);
+  Serial.println(timeClient.getHours());
+  digitalWrite(luz,LOW);
   timeClient.update();
+  hora = timeClient.getHours();
   delay(1000);
   }
   
-  digitalWrite(luz,LOW);
+  digitalWrite(luz,HIGH);
   delay(1000);
 }
